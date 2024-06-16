@@ -1,7 +1,7 @@
 ﻿using ACME.SchoolManagement.Core.Application.Contracts;
-using ACME.SchoolManagement.Core.Application.Entities;
 using ACME.SchoolManagement.Core.Application.Request;
 using ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStudentsByDate;
+using ACME.SchoolManagement.Core.Entities;
 using AutoMapper;
 using Moq;
 

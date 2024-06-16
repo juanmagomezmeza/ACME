@@ -1,4 +1,4 @@
-﻿namespace ACME.SchoolManagement.Core.Application.Entities
+﻿namespace ACME.SchoolManagement.Core.Entities
 {
     public class Course
     {

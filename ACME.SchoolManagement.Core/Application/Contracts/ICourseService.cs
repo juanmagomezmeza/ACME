@@ -1,4 +1,4 @@
-﻿using ACME.SchoolManagement.Core.Application.Entities;
+﻿using ACME.SchoolManagement.Core.Entities;
 
 namespace ACME.SchoolManagement.Core.Application.Contracts
 {

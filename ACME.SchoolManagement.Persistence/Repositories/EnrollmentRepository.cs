@@ -1,9 +1,9 @@
 ﻿using ACME.SchoolManagement.Core.Application.Contracts;
-using ACME.SchoolManagement.Core.Application.Entities;
-using ACME.SchoolManagement.Infrastructure.Data;
+using ACME.SchoolManagement.Core.Entities;
+using ACME.SchoolManagement.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace ACME.SchoolManagement.Infrastructure.Repositories
+namespace ACME.SchoolManagement.Persistence.Repositories
 {
     public class EnrollmentRepository : Repository<Enrollment>, IEnrollmentRepository
     {

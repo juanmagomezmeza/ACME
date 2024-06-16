@@ -2,9 +2,9 @@
 using ACME.SchoolManagement.Core.Application.Contracts;
 using ACME.SchoolManagement.Core.Application.Services;
 using ACME.SchoolManagement.Infrastructure;
-using ACME.SchoolManagement.Infrastructure.Data;
 using ACME.SchoolManagement.Infrastructure.PaymentGateway;
-using ACME.SchoolManagement.Infrastructure.Repositories;
+using ACME.SchoolManagement.Persistence.Contexts;
+using ACME.SchoolManagement.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace ACME.SchoolManagement.Api.Installers

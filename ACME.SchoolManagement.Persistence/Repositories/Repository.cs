@@ -1,8 +1,8 @@
 ﻿using ACME.SchoolManagement.Core.Application.Contracts;
-using ACME.SchoolManagement.Infrastructure.Data;
+using ACME.SchoolManagement.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace ACME.SchoolManagement.Infrastructure.Repositories
+namespace ACME.SchoolManagement.Persistence.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
