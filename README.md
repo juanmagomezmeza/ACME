@@ -13,7 +13,8 @@ Este proyecto proporciona un sistema básico de gestión de cursos y estudiantes
 
 - **Core Layer**: Contiene las entidades y la lógica de negocio. Contiene los casos de uso y servicios.
 - **Api Layer**: Contiene las configuraciones de logs, middlewares y carga de servicios por DI.
-- **Infrastructure Layer**: Contiene las implementaciones de repositorios en memoria y el patrón Unit of Work.
+- **Infrastructure Layer**: Proporciona servicios necesarios para soportar la capa de negocio y de aplicación.
+- **Persistence Layer**: Contiene las implementaciones de repositorios en memoria y el patrón Unit of Work.
 - **Tests**: Contiene las pruebas unitarias usando xUnit.net.
 
 ## Cómo Ejecutar
