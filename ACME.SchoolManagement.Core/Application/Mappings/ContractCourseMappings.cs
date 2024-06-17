@@ -1,5 +1,5 @@
 ﻿using ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse;
-using ACME.SchoolManagement.Core.Entities;
+using ACME.SchoolManagement.Core.Domain.Entities;
 using AutoMapper;
 
 namespace ACME.SchoolManagement.Core.Application.Mappings

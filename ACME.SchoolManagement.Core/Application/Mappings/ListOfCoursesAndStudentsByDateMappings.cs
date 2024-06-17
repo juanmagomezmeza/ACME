@@ -1,5 +1,5 @@
-﻿using ACME.SchoolManagement.Core.Application.Models;
-using ACME.SchoolManagement.Core.Entities;
+﻿using ACME.SchoolManagement.Core.Domain.Entities;
+using ACME.SchoolManagement.Core.Domain.Models;
 using AutoMapper;
 
 namespace ACME.SchoolManagement.Core.Application.Mappings

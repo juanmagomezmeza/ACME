@@ -1,8 +1,9 @@
-﻿using ACME.SchoolManagement.Core.Application.Contracts;
-using ACME.SchoolManagement.Core.Application.Exceptions;
-using ACME.SchoolManagement.Core.Application.Extensions;
-using ACME.SchoolManagement.Core.Application.Models;
-using ACME.SchoolManagement.Core.Application.Request;
+﻿using ACME.SchoolManagement.Core.Application.Extensions;
+using ACME.SchoolManagement.Core.Application.Services.Request;
+using ACME.SchoolManagement.Core.Domain.Contracts.Request;
+using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.Exceptions;
+using ACME.SchoolManagement.Core.Domain.Models;
 using AutoMapper;
 using FluentValidation.Results;
 

@@ -1,0 +1,23 @@
+﻿using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.Contracts.UnitOfWork;
+using ACME.SchoolManagement.Core.Domain.Entities;
+
+namespace ACME.SchoolManagement.Core.Application.Services.DataAccess
+{
+    public class StudentService : IStudentService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public StudentService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<string> RegisterStudent(Student student)
+        {
+            _unitOfWork.Students.Add(student);
+            _unitOfWork.Complete();
+            return await Task.FromResult("Student registered");
+        }
+    }
+}

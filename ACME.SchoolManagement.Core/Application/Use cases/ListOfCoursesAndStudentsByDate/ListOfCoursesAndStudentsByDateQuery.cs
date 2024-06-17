@@ -1,5 +1,5 @@
-﻿using ACME.SchoolManagement.Core.Application.Models;
-using ACME.SchoolManagement.Core.Application.Request;
+﻿using ACME.SchoolManagement.Core.Domain.Contracts.Request;
+using ACME.SchoolManagement.Core.Domain.Models;
 
 namespace ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStudentsByDate
 {

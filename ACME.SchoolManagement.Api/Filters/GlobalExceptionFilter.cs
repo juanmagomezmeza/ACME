@@ -1,5 +1,5 @@
-﻿using ACME.SchoolManagement.Core.Application.Exceptions;
-using ACME.SchoolManagement.Core.Application.Models;
+﻿using ACME.SchoolManagement.Core.Domain.Exceptions;
+using ACME.SchoolManagement.Core.Domain.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

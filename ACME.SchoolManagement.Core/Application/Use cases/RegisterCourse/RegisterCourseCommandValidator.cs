@@ -1,4 +1,4 @@
-﻿using ACME.SchoolManagement.Core.Application.Common;
+﻿using ACME.SchoolManagement.Core.Domain.Common;
 using FluentValidation;
 
 namespace ACME.SchoolManagement.Core.Application.Use_cases.RegisterCourse

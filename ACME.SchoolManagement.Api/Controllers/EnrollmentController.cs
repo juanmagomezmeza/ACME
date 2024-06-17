@@ -1,8 +1,8 @@
-﻿using ACME.SchoolManagement.Core.Application.Contracts;
-using ACME.SchoolManagement.Core.Application.Models;
-using ACME.SchoolManagement.Core.Application.Request;
+﻿using ACME.SchoolManagement.Core.Application.Services.Request;
 using ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse;
 using ACME.SchoolManagement.Core.Application.Use_cases.RegisterCourse;
+using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ACME.SchoolManagement.Api.Controllers

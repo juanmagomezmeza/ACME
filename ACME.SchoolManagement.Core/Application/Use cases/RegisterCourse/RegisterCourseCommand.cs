@@ -1,4 +1,4 @@
-﻿using ACME.SchoolManagement.Core.Application.Request;
+﻿using ACME.SchoolManagement.Core.Domain.Contracts.Request;
 
 namespace ACME.SchoolManagement.Core.Application.Use_cases.RegisterCourse
 {

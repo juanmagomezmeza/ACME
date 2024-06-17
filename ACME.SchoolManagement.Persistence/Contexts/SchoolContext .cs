@@ -1,4 +1,4 @@
-﻿using ACME.SchoolManagement.Core.Entities;
+﻿using ACME.SchoolManagement.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ACME.SchoolManagement.Persistence.Contexts;

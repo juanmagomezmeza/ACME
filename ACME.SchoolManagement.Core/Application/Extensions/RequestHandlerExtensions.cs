@@ -1,5 +1,7 @@
-﻿using ACME.SchoolManagement.Core.Application.Contracts;
-using ACME.SchoolManagement.Core.Application.Request;
+﻿using ACME.SchoolManagement.Core.Application.Services.Request;
+using ACME.SchoolManagement.Core.Domain.Contracts.Repositories;
+using ACME.SchoolManagement.Core.Domain.Contracts.Request;
+using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using AutoMapper;
 
 namespace ACME.SchoolManagement.Core.Application.Extensions

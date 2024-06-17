@@ -1,7 +1,7 @@
-﻿using ACME.SchoolManagement.Core.Application.Request;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using ACME.SchoolManagement.Core.Application.Extensions;
+using ACME.SchoolManagement.Core.Domain.Contracts.Request;
 
 namespace ACME.SchoolManagement.Infrastructure
 {

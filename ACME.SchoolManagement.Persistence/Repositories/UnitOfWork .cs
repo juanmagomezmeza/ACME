@@ -1,4 +1,5 @@
-﻿using ACME.SchoolManagement.Core.Application.Contracts;
+﻿using ACME.SchoolManagement.Core.Domain.Contracts.Repositories;
+using ACME.SchoolManagement.Core.Domain.Contracts.UnitOfWork;
 using ACME.SchoolManagement.Persistence.Contexts;
 
 namespace ACME.SchoolManagement.Persistence.Repositories

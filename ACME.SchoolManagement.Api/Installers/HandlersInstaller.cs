@@ -1,11 +1,12 @@
 ﻿using ACME.SchoolManagement.Api.Installers.Contracts;
-using ACME.SchoolManagement.Core.Application.Request;
 using ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse;
 using System.Reflection;
 using ACME.SchoolManagement.Infrastructure;
 using ACME.SchoolManagement.Core.Application.Use_cases.RegisterStudent;
 using ACME.SchoolManagement.Core.Application.Use_cases.RegisterCourse;
 using ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStudentsByDate;
+using ACME.SchoolManagement.Core.Domain.Contracts.Request;
+using ACME.SchoolManagement.Core.Application.Services.Request;
 
 namespace ACME.SchoolManagement.Api.Installers
 {

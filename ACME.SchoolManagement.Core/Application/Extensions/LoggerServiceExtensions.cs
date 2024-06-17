@@ -1,6 +1,6 @@
-﻿using ACME.SchoolManagement.Core.Application.Contracts;
-using ACME.SchoolManagement.Core.Application.Exceptions;
-using ACME.SchoolManagement.Core.Application.Request;
+﻿using ACME.SchoolManagement.Core.Domain.Contracts.Request;
+using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.Exceptions;
 using FluentValidation.Results;
 
 namespace ACME.SchoolManagement.Core.Application.Extensions

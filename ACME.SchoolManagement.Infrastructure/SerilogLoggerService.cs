@@ -1,4 +1,4 @@
-﻿using ACME.SchoolManagement.Core.Application.Contracts;
+﻿using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using Serilog;
 using Serilog.Events;
 

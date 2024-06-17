@@ -1,6 +1,8 @@
 ﻿using ACME.SchoolManagement.Api.Installers.Contracts;
-using ACME.SchoolManagement.Core.Application.Contracts;
-using ACME.SchoolManagement.Core.Application.Services;
+using ACME.SchoolManagement.Core.Application.Services.DataAccess;
+using ACME.SchoolManagement.Core.Domain.Contracts.Repositories;
+using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.Contracts.UnitOfWork;
 using ACME.SchoolManagement.Infrastructure;
 using ACME.SchoolManagement.Infrastructure.PaymentGateway;
 using ACME.SchoolManagement.Persistence.Contexts;
