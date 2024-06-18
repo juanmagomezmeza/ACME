@@ -1,4 +1,5 @@
 ﻿using ACME.SchoolManagement.Core.Application.Extensions;
+using ACME.SchoolManagement.Core.Application.Services.DataAccess;
 using ACME.SchoolManagement.Core.Application.Services.Request;
 using ACME.SchoolManagement.Core.Domain.Contracts.Request;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
@@ -15,9 +16,15 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStude
         private IEnrollmentService? _enrollmentService;
         private IMapper? _mapper;
 
-        public async Task<IList<EnrollmentModel>> Handle(ListOfCoursesAndStudentsByDateQuery request, ServiceFactory serviceFactory, CancellationToken cancellationToken)
+        public ListOfCoursesAndStudentsByDateQueryHandler(ILoggerService logger, IEnrollmentService enrollmentService, IMapper mapper)
         {
-            LoadServices(serviceFactory);
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        }
+
+        public async Task<IList<EnrollmentModel>> Handle(ListOfCoursesAndStudentsByDateQuery request, CancellationToken cancellationToken)
+        {
             ValidateRequest(request);
             return await ListOfCoursesAndStudentsByDate(request.StartDate, request.EndDate);
         }
@@ -48,13 +55,6 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStude
                 string? message = _logger?.LogValidationErrors(request, failures);
                 throw new RequestValidationException(message, failures);
             }
-        }
-
-        private void LoadServices(ServiceFactory serviceFactory)
-        {
-            _logger = this.GetLoggerService(serviceFactory);
-            _enrollmentService = this.GetEnrollmentService(serviceFactory);
-            _mapper = this.GetAutomapperService(serviceFactory);
         }
     }
 }

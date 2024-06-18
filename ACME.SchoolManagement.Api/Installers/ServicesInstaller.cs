@@ -24,16 +24,10 @@ namespace ACME.SchoolManagement.Api.Installers
         public void InstallService(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ILoggerService>(provider => new SerilogLoggerService());
-            services.AddDbContext<SchoolContext>(options => options.UseInMemoryDatabase("SchoolDb"));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IStudentService, StudentService>();
-            services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IEnrollmentService, EnrollmentService>();
-            services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             services.AddScoped<IPaymentGateway, PaymentGateway>();
-
         }
     }
 }

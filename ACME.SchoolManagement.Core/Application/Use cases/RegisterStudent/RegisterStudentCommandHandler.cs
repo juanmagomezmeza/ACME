@@ -1,5 +1,4 @@
 ﻿using ACME.SchoolManagement.Core.Application.Extensions;
-using ACME.SchoolManagement.Core.Application.Services.Request;
 using ACME.SchoolManagement.Core.Domain.Contracts.Request;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Core.Domain.Entities;
@@ -15,9 +14,16 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.RegisterStudent
         private IStudentService? _studentService;
         private IMapper? _mapper;
 
-        public async Task<string> Handle(RegisterStudentCommand request, ServiceFactory serviceFactory, CancellationToken cancellationToken)
+        public RegisterStudentCommandHandler(ILoggerService logger, IStudentService studentService, IMapper mapper)
         {
-            LoadServices(serviceFactory);
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        }
+
+
+        public async Task<string> Handle(RegisterStudentCommand request, CancellationToken cancellationToken)
+        {
             ValidateRequest(request);
             return await RegisterStudent(request);
         }
@@ -42,13 +48,6 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.RegisterStudent
                 string? message = _logger?.LogValidationErrors(request, failures);
                 throw new RequestValidationException(message, failures);
             }
-        }
-
-        private void LoadServices(ServiceFactory serviceFactory)
-        {
-            _logger = this.GetLoggerService(serviceFactory);
-            _studentService = this.GetStudentService(serviceFactory);
-            _mapper = this.GetAutomapperService(serviceFactory);
         }
     }
 }

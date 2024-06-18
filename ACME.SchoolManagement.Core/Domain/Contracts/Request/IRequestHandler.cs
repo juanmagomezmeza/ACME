@@ -16,6 +16,6 @@ namespace ACME.SchoolManagement.Core.Domain.Contracts.Request
         /// <param name="request">The request</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Response from the request</returns>
-        Task<TResponse> Handle(TRequest request, ServiceFactory serviceFactory, CancellationToken cancellationToken);
+        Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
     }
 }

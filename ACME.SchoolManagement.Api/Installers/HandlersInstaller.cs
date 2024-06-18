@@ -1,12 +1,9 @@
 ﻿using ACME.SchoolManagement.Api.Installers.Contracts;
-using ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse;
-using System.Reflection;
-using ACME.SchoolManagement.Infrastructure;
-using ACME.SchoolManagement.Core.Application.Use_cases.RegisterStudent;
-using ACME.SchoolManagement.Core.Application.Use_cases.RegisterCourse;
-using ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStudentsByDate;
-using ACME.SchoolManagement.Core.Domain.Contracts.Request;
 using ACME.SchoolManagement.Core.Application.Services.Request;
+using ACME.SchoolManagement.Core.Domain.Contracts.Request;
+using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Infrastructure;
+using System.Reflection;
 
 namespace ACME.SchoolManagement.Api.Installers
 {
@@ -22,16 +19,15 @@ namespace ACME.SchoolManagement.Api.Installers
         /// <param name="configuration">configuration info</param>
         public void InstallService(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<ServiceFactory>(serviceProvider => {
-                return type => serviceProvider.GetService(type);
-            });
-            services.AddScoped<RequestDispatcher>();
             services.AddScoped<IRequestDispatcher, RequestDispatcher>();
-            services.AddRequestHandlers(typeof(ContractCourseCommandHandler).GetTypeInfo().Assembly);
-            services.AddRequestHandlers(typeof(RegisterStudentCommandHandler).GetTypeInfo().Assembly);
-            services.AddRequestHandlers(typeof(RegisterCourseCommandHandler).GetTypeInfo().Assembly);
-            services.AddRequestHandlers(typeof(ListOfCoursesAndStudentsByDateQueryHandler).GetTypeInfo().Assembly);
 
+            services.AddScoped(provider =>
+            {
+                var serviceProvider = provider.GetService<IServiceProvider>();
+                var logger = provider.GetService<ILoggerService>();
+                return new RequestDispatcher(serviceProvider, logger);
+            });
+            services.AddRequestHandlers(Assembly.Load("ACME.SchoolManagement.Core"));
         }
     }
 }

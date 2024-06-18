@@ -9,21 +9,17 @@ namespace ACME.SchoolManagement.Core.Application.Services.Request
 {
     public class RequestDispatcher : IRequestDispatcher
     {
-        private readonly ServiceFactory serviceFactory;
-        private ILoggerService? logger;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILoggerService _logger;
         private static readonly ConcurrentDictionary<Type, Type> requestHandlers = new();
 
-        public RequestDispatcher(ServiceFactory? serviceFactory, bool loadRequestFromAssembly = true)
+        public RequestDispatcher(IServiceProvider serviceProvider, ILoggerService logger, bool loadRequestFromAssembly = true)
         {
-            this.serviceFactory = serviceFactory ?? throw new NullReferenceException(nameof(ServiceFactory));
-            LoadLogService();
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
             if (loadRequestFromAssembly)
                 LoadRequestHandlersFromAssembly();
-        }
-
-        private void LoadLogService()
-        {
-            logger = serviceFactory.GetInstance<ILoggerService>();
         }
 
         public async Task<TResponse> Send<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default) where TRequest : IRequest<TResponse>
@@ -34,15 +30,15 @@ namespace ACME.SchoolManagement.Core.Application.Services.Request
                     throw new ArgumentNullException(nameof(request));
 
                 var handler = GetHandlerByRequest<TRequest, TResponse>(request.GetType(), request.GetType().Name);
-                var response = await handler.Handle(request, serviceFactory, cancellationToken);
+                var response = await handler.Handle(request, cancellationToken);
                 return response;
             }
             catch (Exception e)
             {
                 if (e.InnerException != null)
-                    logger.Error(e.InnerException.Message, e);
+                    _logger.Error(e.InnerException.Message, e);
                 else
-                    logger?.Error(e.Message, e);
+                    _logger.Error(e.Message, e);
                 throw;
             }
         }
@@ -52,9 +48,9 @@ namespace ACME.SchoolManagement.Core.Application.Services.Request
             if (!requestHandlers.TryGetValue(requestType, out Type? handlerType))
                 throw new RequestHandlerNotFoundException(requestName);
 
-            var handler = serviceFactory.GetInstance(handlerType);
+            var handler = _serviceProvider.GetService(handlerType);
             return handler is null
-                ? throw new InvalidOperationException($"Handler was not found for request of type {requestName}. Register your handlers with the container/service factory.")
+                ? throw new InvalidOperationException($"Handler was not found for request of type {requestName}. Register your handlers with the container/service provider.")
                 : (IRequestHandler<TRequest, TResponse>)handler;
         }
 
@@ -62,16 +58,18 @@ namespace ACME.SchoolManagement.Core.Application.Services.Request
         {
             if (requestHandlers.Any())
                 return;
+
             Type requestType = typeof(IRequest<>);
-            var assembly = Assembly.GetAssembly(requestType) ?? throw new ArgumentNullException("No se encontró el emsamblado para el tipo " + nameof(requestType));
+            var assembly = Assembly.GetAssembly(requestType) ?? throw new ArgumentNullException("No se encontró el ensamblado para el tipo " + nameof(requestType));
 
             Type[] allTypes = assembly.GetTypes();
             var requestTypes = requestType.GetImplementedInterfacesFromTypes(allTypes);
             var handlersType = typeof(IRequestHandler<,>);
             var handlers = handlersType.GetImplementedInterfacesFromTypes(allTypes);
+
             foreach (var req in requestTypes)
             {
-                var reqHandler = handlers.Where(h => h.GetInterfaces()[0].GetGenericArguments()[0] == req).FirstOrDefault();
+                var reqHandler = handlers.FirstOrDefault(h => h.GetInterfaces()[0].GetGenericArguments()[0] == req);
                 if (reqHandler != null)
                     requestHandlers.TryAdd(req, reqHandler);
             }
@@ -83,7 +81,6 @@ namespace ACME.SchoolManagement.Core.Application.Services.Request
                 throw new ArgumentNullException(nameof(handler));
 
             var requestType = typeof(TRequest);
-
             requestHandlers.GetOrAdd(requestType, handler.GetType());
         }
 

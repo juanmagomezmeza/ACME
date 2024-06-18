@@ -23,7 +23,7 @@ namespace ACME.SchoolManagement.Api.Controllers
         public StudentController(RequestDispatcher requestDispatcher, ILoggerService logger)
         {
             _requestDispatcher = requestDispatcher ?? throw new ArgumentNullException(nameof(RequestDispatcher));
-            _logger = logger ?? throw new ArgumentNullException(nameof(ILoggerService));
+            //_logger = logger ?? throw new ArgumentNullException(nameof(ILoggerService));
         }
 
         /// <summary>

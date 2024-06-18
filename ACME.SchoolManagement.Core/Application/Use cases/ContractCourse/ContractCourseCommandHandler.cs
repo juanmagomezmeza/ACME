@@ -1,5 +1,4 @@
 ﻿using ACME.SchoolManagement.Core.Application.Extensions;
-using ACME.SchoolManagement.Core.Application.Services.Request;
 using ACME.SchoolManagement.Core.Domain.Contracts.Request;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Core.Domain.Entities;
@@ -16,9 +15,16 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse
         private IMapper? _mapper;
         private IPaymentGateway _paymentGateway;
 
-        public async Task<string?> Handle(ContractCourseCommand request, ServiceFactory serviceFactory, CancellationToken cancellationToken)
+        public ContractCourseCommandHandler(ILoggerService logger, IEnrollmentService enrollmentService, IMapper mapper, IPaymentGateway paymentGateway)
         {
-            LoadServices(serviceFactory);
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _paymentGateway = paymentGateway ?? throw new ArgumentNullException(nameof(paymentGateway));
+        }
+
+        public async Task<string?> Handle(ContractCourseCommand request, CancellationToken cancellationToken)
+        {
             ValidateRequest(request);
             return await ContractCourse(request);
         }
@@ -58,14 +64,6 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse
                 string? message = _logger?.LogValidationErrors(request, failures);
                 throw new RequestValidationException(message, failures);
             }
-        }
-
-        private void LoadServices(ServiceFactory serviceFactory)
-        {
-            _logger = this.GetLoggerService(serviceFactory);
-            _enrollmentService = this.GetEnrollmentService(serviceFactory);
-            _mapper = this.GetAutomapperService(serviceFactory);
-            _paymentGateway=this.GetIPaymentGatewayService(serviceFactory);
         }
     }
 }
