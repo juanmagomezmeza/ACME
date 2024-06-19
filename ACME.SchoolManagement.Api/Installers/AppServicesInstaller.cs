@@ -5,11 +5,11 @@ using System.Reflection;
 
 namespace ACME.SchoolManagement.Api.Installers
 {
-    public class RepositoriesInstaller : IInstaller
+    public class AppServicesInstaller : IInstaller
     {
         public void InstallService(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddRepositories(Assembly.Load(GeneralConstants.PersistenceAssembly));
+            services.AddAppServices(Assembly.Load(GeneralConstants.CoreAssembly));
         }
     }
 }

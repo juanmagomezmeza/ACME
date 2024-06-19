@@ -1,5 +1,4 @@
 ﻿using ACME.SchoolManagement.Core.Application.Extensions;
-using ACME.SchoolManagement.Core.Domain.Contracts.Repositories;
 using ACME.SchoolManagement.Core.Domain.Contracts.Request;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Core.Domain.Entities;

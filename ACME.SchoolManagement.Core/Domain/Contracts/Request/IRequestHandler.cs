@@ -1,6 +1,4 @@
-﻿using ACME.SchoolManagement.Core.Application.Services.Request;
-
-namespace ACME.SchoolManagement.Core.Domain.Contracts.Request
+﻿namespace ACME.SchoolManagement.Core.Domain.Contracts.Request
 {
     /// <summary>
     /// Defines a generic handler for a request

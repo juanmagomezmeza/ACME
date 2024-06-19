@@ -4,7 +4,7 @@ using ACME.SchoolManagement.Core.Domain.Entities;
 
 namespace ACME.SchoolManagement.Core.Application.Services.DataAccess
 {
-    public class EnrollmentService : IEnrollmentService
+    public class EnrollmentService : IEnrollmentService, IService<Enrollment>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -34,6 +34,34 @@ namespace ACME.SchoolManagement.Core.Application.Services.DataAccess
         public async Task<bool> StudentExistsAsync(Guid studentID)
         {
             return await _unitOfWork.Enrollments.StudentExists(studentID);
+        }
+
+        public IEnumerable<Enrollment> GetAll()
+        {
+            return _unitOfWork.Enrollments.GetAll();
+        }
+
+        public Enrollment GetById(int id)
+        {
+            return _unitOfWork.Enrollments.GetById(id);
+        }
+
+        public void Save(Enrollment entity)
+        {
+            _unitOfWork.Enrollments.Add(entity);
+            _unitOfWork.Complete();
+        }
+
+        public void Update(Enrollment entity)
+        {
+            _unitOfWork.Enrollments.Update(entity);
+            _unitOfWork.Complete();
+        }
+
+        public void Delete(Enrollment entity)
+        {
+            _unitOfWork.Enrollments.Delete(entity);
+            _unitOfWork.Complete();
         }
     }
 }

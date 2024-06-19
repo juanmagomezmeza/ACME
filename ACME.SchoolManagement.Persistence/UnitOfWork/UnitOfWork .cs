@@ -1,8 +1,9 @@
 ﻿using ACME.SchoolManagement.Core.Domain.Contracts.Repositories;
 using ACME.SchoolManagement.Core.Domain.Contracts.UnitOfWork;
 using ACME.SchoolManagement.Persistence.Contexts;
+using ACME.SchoolManagement.Persistence.Repositories;
 
-namespace ACME.SchoolManagement.Persistence.Repositories
+namespace ACME.SchoolManagement.Persistence.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {

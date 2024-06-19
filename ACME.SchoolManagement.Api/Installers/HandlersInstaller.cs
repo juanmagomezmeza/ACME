@@ -1,5 +1,6 @@
 ﻿using ACME.SchoolManagement.Api.Installers.Contracts;
 using ACME.SchoolManagement.Core.Application.Services.Request;
+using ACME.SchoolManagement.Core.Domain.Common;
 using ACME.SchoolManagement.Core.Domain.Contracts.Request;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Infrastructure;
@@ -27,7 +28,7 @@ namespace ACME.SchoolManagement.Api.Installers
                 var logger = provider.GetService<ILoggerService>();
                 return new RequestDispatcher(serviceProvider, logger);
             });
-            services.AddRequestHandlers(Assembly.Load("ACME.SchoolManagement.Core"));
+            services.AddRequestHandlers(Assembly.Load(GeneralConstants.CoreAssembly));
         }
     }
 }

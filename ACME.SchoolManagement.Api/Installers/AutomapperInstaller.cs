@@ -1,5 +1,6 @@
 ﻿using ACME.SchoolManagement.Api.Installers.Contracts;
-using ACME.SchoolManagement.Core.Application.Mappings;
+using ACME.SchoolManagement.Core.Domain.Common;
+using System.Reflection;
 
 namespace ACME.SchoolManagement.Api.Installers
 {
@@ -7,10 +8,7 @@ namespace ACME.SchoolManagement.Api.Installers
     {
         public void InstallService(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(typeof(RegisterStudentMappings));
-            services.AddAutoMapper(typeof(RegisterCourseMappings));
-            services.AddAutoMapper(typeof(ContractCourseMappings));
-            services.AddAutoMapper(typeof(ListOfCoursesAndStudentsByDateMappings));
+            services.AddAutoMapper(Assembly.Load(GeneralConstants.CoreAssembly));
         }
     }
 }

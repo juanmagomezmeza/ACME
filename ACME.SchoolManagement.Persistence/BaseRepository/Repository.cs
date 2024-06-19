@@ -2,7 +2,7 @@
 using ACME.SchoolManagement.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace ACME.SchoolManagement.Persistence.Repositories
+namespace ACME.SchoolManagement.Persistence.BaseRepository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
