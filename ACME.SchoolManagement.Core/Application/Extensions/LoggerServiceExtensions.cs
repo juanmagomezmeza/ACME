@@ -7,10 +7,10 @@ namespace ACME.SchoolManagement.Core.Application.Extensions
 {
     public static class LoggerServiceExtensions
     {
-        public static string LogValidationErrors<T>(this ILoggerService logger, IRequest<T> request, IEnumerable<ValidationFailure> validationErrors)
+        public static string LogValidationErrors<T>(this ILoggerService logger, IRequest<T> request, IEnumerable<ValidationFailure> failures)
         {
             var requestName = request.GetType().Name;
-            var errors = validationErrors.ToErrorString();
+            var errors = failures.ToErrorString();
             var message = $"Request : {requestName}, contains validation Errors: {errors}";
             logger.Error(message, errors);
             return message;

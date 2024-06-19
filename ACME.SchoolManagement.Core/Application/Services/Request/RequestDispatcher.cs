@@ -74,23 +74,5 @@ namespace ACME.SchoolManagement.Core.Application.Services.Request
                     requestHandlers.TryAdd(req, reqHandler);
             }
         }
-
-        public void AddRequestHandler<TRequest, TResponse>(IRequestHandler<TRequest, TResponse> handler) where TRequest : IRequest<TResponse>
-        {
-            if (handler is null)
-                throw new ArgumentNullException(nameof(handler));
-
-            var requestType = typeof(TRequest);
-            requestHandlers.GetOrAdd(requestType, handler.GetType());
-        }
-
-        public bool ContainsRequestHandler<TRequest, TResponse>(IRequestHandler<TRequest, TResponse> handler) where TRequest : IRequest<TResponse>
-        {
-            if (handler is null)
-                throw new ArgumentNullException(nameof(handler));
-            var requestType = typeof(TRequest);
-            return requestHandlers.ContainsKey(requestType);
-        }
-
     }
 }

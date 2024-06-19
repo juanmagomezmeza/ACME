@@ -1,5 +1,6 @@
 ﻿using ACME.SchoolManagement.Core.Domain.Common;
 using ACME.SchoolManagement.Core.Domain.Contracts.Request;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -11,7 +12,7 @@ namespace ACME.SchoolManagement.Infrastructure
         {
             var handlerType = typeof(IRequestHandler<,>);
             var handlers = assembly.GetExportedTypes()
-                .Where(t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == handlerType))
+                .Where(t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == handlerType) && t.Namespace.Contains("ACME.SchoolManagement.Core.Application.Use_cases"))
                 .ToList();
 
             foreach (var handler in handlers)
@@ -49,6 +50,22 @@ namespace ACME.SchoolManagement.Infrastructure
                 {
                     services.AddScoped(interfaceType, type);
                 }
+            }
+        }
+
+        public static void AddValidatorServices(this IServiceCollection services, Assembly assembly)
+        {
+            var validatorType = typeof(IValidator<>);
+            var validators = assembly.GetExportedTypes()
+                .Where(t => t.GetInterfaces()
+                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == validatorType))
+                .ToList();
+
+            foreach (var validator in validators)
+            {
+                var interfaceType = validator.GetInterfaces()
+                    .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == validatorType);
+                services.AddScoped(interfaceType, validator);
             }
         }
     }

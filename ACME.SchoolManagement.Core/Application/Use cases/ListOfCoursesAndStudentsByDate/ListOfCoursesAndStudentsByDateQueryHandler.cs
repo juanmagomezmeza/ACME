@@ -1,31 +1,29 @@
-﻿using ACME.SchoolManagement.Core.Application.Extensions;
-using ACME.SchoolManagement.Core.Application.Services.DataAccess;
-using ACME.SchoolManagement.Core.Application.Services.Request;
-using ACME.SchoolManagement.Core.Domain.Contracts.Request;
-using ACME.SchoolManagement.Core.Domain.Contracts.Services;
-using ACME.SchoolManagement.Core.Domain.Exceptions;
+﻿using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.HandlerBase;
 using ACME.SchoolManagement.Core.Domain.Models;
 using AutoMapper;
-using FluentValidation.Results;
+using FluentValidation;
 
 namespace ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStudentsByDate
 {
-    public class ListOfCoursesAndStudentsByDateQueryHandler : IRequestHandler<ListOfCoursesAndStudentsByDateQuery, IList<EnrollmentModel>>
+    public class ListOfCoursesAndStudentsByDateQueryHandler : HandlerBase<ListOfCoursesAndStudentsByDateQuery, IList<EnrollmentModel>>
     {
         private ILoggerService? _logger;
         private IEnrollmentService? _enrollmentService;
         private IMapper? _mapper;
 
-        public ListOfCoursesAndStudentsByDateQueryHandler(ILoggerService logger, IEnrollmentService enrollmentService, IMapper mapper)
+        public ListOfCoursesAndStudentsByDateQueryHandler(ILoggerService logger, 
+            IEnrollmentService enrollmentService, 
+            IMapper mapper, 
+            IValidator<ListOfCoursesAndStudentsByDateQuery> validator) : base(logger, validator)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<IList<EnrollmentModel>> Handle(ListOfCoursesAndStudentsByDateQuery request, CancellationToken cancellationToken)
+        protected override async Task<IList<EnrollmentModel>> HandleRequest(ListOfCoursesAndStudentsByDateQuery request, CancellationToken cancellationToken)
         {
-            ValidateRequest(request);
             return await ListOfCoursesAndStudentsByDate(request.StartDate, request.EndDate);
         }
 
@@ -39,22 +37,6 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStude
                 enrollmentModels.Add(model);
             }
             return enrollmentModels;
-        }
-
-        private void ValidateRequest(ListOfCoursesAndStudentsByDateQuery request)
-        {
-            var failures = new List<ValidationFailure>();
-            var validator = new ListOfCoursesAndStudentsByDateQueryValidator();
-            var validationResults = validator.Validate(request);
-
-            if (!validationResults.IsValid)
-                failures = validationResults.Errors.ToList();
-
-            if (failures.Any())
-            {
-                string? message = _logger?.LogValidationErrors(request, failures);
-                throw new RequestValidationException(message, failures);
-            }
         }
     }
 }

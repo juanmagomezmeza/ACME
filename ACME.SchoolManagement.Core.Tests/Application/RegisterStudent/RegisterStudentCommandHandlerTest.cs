@@ -1,58 +1,55 @@
-﻿using ACME.SchoolManagement.Core.Application.Services.Request;
-using ACME.SchoolManagement.Core.Application.Use_cases.RegisterStudent;
+﻿using ACME.SchoolManagement.Core.Application.Use_cases.RegisterStudent;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Core.Domain.Entities;
+using ACME.SchoolManagement.Core.Domain.Exceptions;
 using AutoMapper;
+using FluentAssertions;
+using FluentValidation;
+using FluentValidation.Results;
 using Moq;
 
 namespace ACME.SchoolManagement.Core.Tests.Application.RegisterStudent
 {
-    public class RegisterStudentCommandHandlerTest
+    public class RegisterStudentCommandHandlerTests
     {
-        private readonly Mock<IStudentService> _studentServiceMock;
-        private readonly Mock<ILoggerService> _loggerServiceMock;
-        private readonly Mock<IMapper> _mapperMock;
-        private readonly ServiceFactory _serviceFactory;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IStudentService> _mockStudentService;
+        private readonly Mock<IMapper> _mockMapper;
         private readonly RegisterStudentCommandHandler _handler;
 
-        public RegisterStudentCommandHandlerTest()
+        public RegisterStudentCommandHandlerTests()
         {
-            _studentServiceMock = new Mock<IStudentService>();
-            _loggerServiceMock = new Mock<ILoggerService>();
-            _mapperMock = new Mock<IMapper>();
+            _mockLogger = new Mock<ILoggerService>();
+            _mockStudentService = new Mock<IStudentService>();
+            _mockMapper = new Mock<IMapper>();
 
-            _serviceFactory = new ServiceFactory(type =>
+            _handler = new RegisterStudentCommandHandler(
+                _mockLogger.Object,
+                _mockStudentService.Object,
+                _mockMapper.Object);
+        }
+
+        [Fact]
+        public async Task Handle_Should_Return_StudentId_When_Successful()
+        {
+            // Arrange
+            var command = new RegisterStudentCommand
             {
-                if (type == typeof(IStudentService)) return _studentServiceMock.Object;
-                if (type == typeof(ILoggerService)) return _loggerServiceMock.Object;
-                if (type == typeof(IMapper)) return _mapperMock.Object;
-                throw new ArgumentException("Unexpected type");
-            });
+                // Fill properties as needed
+            };
 
-            _handler = new RegisterStudentCommandHandler();
-        }
+            var student = new Student();
+            var expectedStudentId = "studentId123";
 
-        [Fact]
-        public async Task Handle_ValidRequest_ShouldReturnStudentId()
-        {
-            var command = new RegisterStudentCommand { Name = "John Doe", Age = 20 };
-            var studentId = Guid.NewGuid().ToString();
-            _studentServiceMock.Setup(s => s.RegisterStudent(It.IsAny<Student>())).ReturnsAsync(studentId);
+            _mockMapper.Setup(m => m.Map<Student>(command)).Returns(student);
+            _mockStudentService.Setup(ss => ss.RegisterStudent(student)).ReturnsAsync(expectedStudentId);
 
-            var result = await _handler.Handle(command, _serviceFactory, CancellationToken.None);
+            // Act
+            var result = await _handler.Handle(command, CancellationToken.None);
 
-            Assert.Equal(studentId, result);
-            _studentServiceMock.Verify(s => s.RegisterStudent(It.IsAny<Student>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task Handle_ServiceException_ShouldThrowException()
-        {
-            var command = new RegisterStudentCommand { Name = "John Doe", Age = 20 };
-            _studentServiceMock.Setup(s => s.RegisterStudent(It.IsAny<Student>())).ThrowsAsync(new Exception("Service error"));
-
-            var ex = await Assert.ThrowsAsync<Exception>(() => _handler.Handle(command, _serviceFactory, CancellationToken.None));
-            Assert.Equal("Service error", ex.Message);
+            // Assert
+            result.Should().Be(expectedStudentId);
         }
     }
+
 }

@@ -1,30 +1,30 @@
-﻿using ACME.SchoolManagement.Core.Application.Extensions;
-using ACME.SchoolManagement.Core.Domain.Contracts.Request;
-using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+﻿using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Core.Domain.Entities;
-using ACME.SchoolManagement.Core.Domain.Exceptions;
+using ACME.SchoolManagement.Core.Domain.HandlerBase;
 using AutoMapper;
-using FluentValidation.Results;
+using FluentValidation;
 
 namespace ACME.SchoolManagement.Core.Application.Use_cases.RegisterCourse
 {
 
-    public class RegisterCourseCommandHandler : IRequestHandler<RegisterCourseCommand, string?>
+    public class RegisterCourseCommandHandler : HandlerBase<RegisterCourseCommand, string?>
     {
         private readonly ILoggerService? _logger;
         private ICourseService? _courseService;
         private IMapper? _mapper;
 
-        public RegisterCourseCommandHandler(ILoggerService logger, ICourseService courseService, IMapper mapper)
+        public RegisterCourseCommandHandler(ILoggerService logger, 
+            ICourseService courseService, 
+            IMapper mapper,
+            IValidator<RegisterCourseCommand> validator) : base(logger, validator)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _courseService = courseService ?? throw new ArgumentNullException(nameof(courseService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<string?> Handle(RegisterCourseCommand request, CancellationToken cancellationToken)
+        protected override async Task<string?> HandleRequest(RegisterCourseCommand request, CancellationToken cancellationToken)
         {
-            ValidateRequest(request);
             return await RegisterCourse(request);
         }
 
@@ -32,22 +32,6 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.RegisterCourse
         {
             var course = _mapper.Map<Course>(command);
             return await _courseService.RegisterCourse(course);
-        }
-
-        private void ValidateRequest(RegisterCourseCommand request)
-        {
-            var failures = new List<ValidationFailure>();
-            var validator = new RegisterCourseCommandValidator();
-            var validationResults = validator.Validate(request);
-
-            if (!validationResults.IsValid)
-                failures = validationResults.Errors.ToList();
-
-            if (failures.Any())
-            {
-                string? message = _logger?.LogValidationErrors(request, failures);
-                throw new RequestValidationException(message, failures);
-            }
         }
     }
 }

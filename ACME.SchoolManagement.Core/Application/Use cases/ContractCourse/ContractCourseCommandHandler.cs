@@ -1,21 +1,23 @@
-﻿using ACME.SchoolManagement.Core.Application.Extensions;
-using ACME.SchoolManagement.Core.Domain.Contracts.Request;
-using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+﻿using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Core.Domain.Entities;
-using ACME.SchoolManagement.Core.Domain.Exceptions;
+using ACME.SchoolManagement.Core.Domain.HandlerBase;
 using AutoMapper;
-using FluentValidation.Results;
+using FluentValidation;
 
 namespace ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse
 {
-    public class ContractCourseCommandHandler : IRequestHandler<ContractCourseCommand, string?>
+    public class ContractCourseCommandHandler : HandlerBase<ContractCourseCommand, string?>
     {
         private ILoggerService? _logger;
         private IEnrollmentService? _enrollmentService;
         private IMapper? _mapper;
         private IPaymentGateway _paymentGateway;
 
-        public ContractCourseCommandHandler(ILoggerService logger, IEnrollmentService enrollmentService, IMapper mapper, IPaymentGateway paymentGateway)
+        public ContractCourseCommandHandler(ILoggerService logger, 
+            IEnrollmentService enrollmentService, 
+            IMapper mapper, 
+            IPaymentGateway paymentGateway, 
+            IValidator<ContractCourseCommand> validator) : base(logger, validator)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));
@@ -23,9 +25,8 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse
             _paymentGateway = paymentGateway ?? throw new ArgumentNullException(nameof(paymentGateway));
         }
 
-        public async Task<string?> Handle(ContractCourseCommand request, CancellationToken cancellationToken)
+        protected override async Task<string?> HandleRequest(ContractCourseCommand request, CancellationToken cancellationToken)
         {
-            ValidateRequest(request);
             return await ContractCourse(request);
         }
 
@@ -48,22 +49,6 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse
             if (await _enrollmentService.StudentExistsAsync(command.StudentID) is false)
                 return false;
             return true;
-        }
-
-        private void ValidateRequest(ContractCourseCommand request)
-        {
-            var failures = new List<ValidationFailure>();
-            var validator = new ContractCourseCommandValidator();
-            var validationResults = validator.Validate(request);
-
-            if (!validationResults.IsValid)
-                failures = validationResults.Errors.ToList();
-
-            if (failures.Any())
-            {
-                string? message = _logger?.LogValidationErrors(request, failures);
-                throw new RequestValidationException(message, failures);
-            }
         }
     }
 }

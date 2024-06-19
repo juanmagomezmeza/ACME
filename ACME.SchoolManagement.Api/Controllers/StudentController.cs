@@ -11,7 +11,7 @@ namespace ACME.SchoolManagement.Api.Controllers
     public class StudentController : ControllerBase
     {
         private readonly RequestDispatcher _requestDispatcher;
-        private readonly ILoggerService _logger;
+        //private readonly ILoggerService _logger;
 
 
         /// <summary>
