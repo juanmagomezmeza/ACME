@@ -1,5 +1,4 @@
 ﻿using ACME.SchoolManagement.Core.Domain.Exceptions;
-using ACME.SchoolManagement.Core.Domain.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -12,69 +11,47 @@ namespace ACME.SchoolManagement.Api.Filters
     /// </summary>
     public class GlobalExceptionFilter : IExceptionFilter
     {
-        /// <summary>
-        /// it is excecuted for each request
-        /// </summary>
-        /// <param name="context"></param>
         public void OnException(ExceptionContext context)
         {
-            HttpStatusCode status = HttpStatusCode.InternalServerError;
-            var exceptionType = context.Exception.GetType();
+            HttpStatusCode status;
             string message;
 
-            if (exceptionType == typeof(UnauthorizedAccessException))
+            switch (context.Exception)
             {
-                message = "Unauthorized Access";
-                status = HttpStatusCode.Unauthorized;
+                case UnauthorizedAccessException _:
+                    status = HttpStatusCode.Unauthorized;
+                    message = "Unauthorized Access";
+                    break;
+                case PaymentException ex:
+                    status = HttpStatusCode.PaymentRequired; 
+                    message = ex.Message;
+                    break;
+                case DataConsistencyException ex:
+                    status = HttpStatusCode.BadRequest;
+                    message = ex.Message;
+                    break;
+                case InvalidDataException ex:
+                    status = HttpStatusCode.BadRequest;
+                    message = ex.Message;
+                    break;
+                default:
+                    status = HttpStatusCode.InternalServerError;
+                    message = "An internal error occurred.";
+                    break;
             }
-            else if (exceptionType == typeof(NotImplementedException) || exceptionType == typeof(ArgumentNullException)
-                || exceptionType == typeof(InvalidOperationException) || exceptionType == typeof(InvalidCastException))
+
+            var response = new { message };
+            var responseJson = JsonConvert.SerializeObject(response, new JsonSerializerSettings
             {
-                message = "A server error occurred.";
-                status = HttpStatusCode.InternalServerError;
-            }
-            else if (exceptionType == typeof(InvalidDataException))
-            {
-                message = "Invalid data";
-                status = HttpStatusCode.BadRequest;
-            }
-            else if (exceptionType == typeof(RequestValidationException))
-            {
-                var path = GetAbsolutePath(((DefaultHttpContext)context.HttpContext).Request);
-                var errors = ((RequestValidationException)context.Exception).Errors;
-                var errorResponse = new ValidationErrorModel() { Message = $"Request: {path} contains validation Errors", Errors = errors };
-                message = JsonConvert.SerializeObject(errorResponse, new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
-                status = HttpStatusCode.BadRequest;
-            }
-            else
-                message = "ocurrió un error interno";
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
 
             context.ExceptionHandled = true;
-
-            HttpResponse response = context.HttpContext.Response;
-            response.StatusCode = (int)status;
-            response.ContentType = "application/json";
-            response.WriteAsync(message);
+            context.HttpContext.Response.StatusCode = (int)status;
+            context.HttpContext.Response.ContentType = "application/json";
+            context.HttpContext.Response.WriteAsync(responseJson);
         }
-
-        /// <summary>
-        /// Get the absolute path
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public string GetAbsolutePath(HttpRequest request)
-        {
-            return string.Concat(
-                        request.Scheme,
-                        "://",
-                        request.Host.ToUriComponent(),
-                        request.PathBase.ToUriComponent(),
-                        request.Path.ToUriComponent(),
-                        request.QueryString.ToUriComponent());
-        }
-
     }
+
+
 }

@@ -1,8 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using ACME.SchoolManagement.Api.Filters;
+﻿using ACME.SchoolManagement.Api.Filters;
 using ACME.SchoolManagement.Api.Installers.Contracts;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.OpenApi.Models;
 
 namespace ACME.SchoolManagement.Api.Installers
@@ -21,6 +19,13 @@ namespace ACME.SchoolManagement.Api.Installers
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "School Management", Description = "Management", Version = "v1" });
             });
+            services.AddMvc(
+                config =>
+                {
+                    config.Filters.Add(typeof(GlobalExceptionFilter));
+                });
+
+            services.AddHttpContextAccessor();
         }
     }
 }

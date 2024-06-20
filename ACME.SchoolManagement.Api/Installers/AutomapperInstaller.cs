@@ -8,7 +8,7 @@ namespace ACME.SchoolManagement.Api.Installers
     {
         public void InstallService(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(Assembly.Load(GeneralConstants.CoreAssembly));
+            services.AddAutoMapper( Assembly.Load(GeneralConstants.CoreAssembly));
         }
     }
 }

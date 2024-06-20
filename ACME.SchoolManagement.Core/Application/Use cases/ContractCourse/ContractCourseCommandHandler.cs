@@ -2,6 +2,7 @@
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Core.Domain.Contracts.ValidationLogger;
 using ACME.SchoolManagement.Core.Domain.Entities;
+using ACME.SchoolManagement.Core.Domain.Exceptions;
 using AutoMapper;
 using FluentValidation;
 
@@ -35,10 +36,10 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse
         private async Task<string> ContractCourse(ContractCourseCommand command)
         {
             if (await _paymentGateway.ProcessPaymentAsync(command.StudentID, command.CourseID, 234234) is false)
-                throw new UnauthorizedAccessException("Paid error");
+                throw new PaymentException("Payment error");
 
             if (await ValidateDataConsistency(command) is false)
-                throw new InvalidDataException("Invalid data");
+                throw new DataConsistencyException("Invalid data");
 
             var enrollment = _mapper.Map<Enrollment>(command);
             return await _enrollmentService.Enroll(enrollment);
