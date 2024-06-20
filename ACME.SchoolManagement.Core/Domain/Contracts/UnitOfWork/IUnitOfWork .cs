@@ -2,7 +2,7 @@
 
 namespace ACME.SchoolManagement.Core.Domain.Contracts.UnitOfWork
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
         IStudentRepository Students { get; }
         ICourseRepository Courses { get; }

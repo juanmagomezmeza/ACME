@@ -1,6 +1,8 @@
 ﻿using ACME.SchoolManagement.Core.Application.Extensions;
+using ACME.SchoolManagement.Core.Application.Logger;
 using ACME.SchoolManagement.Core.Domain.Contracts.Request;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.Contracts.ValidationLogger;
 using ACME.SchoolManagement.Core.Domain.Exceptions;
 using FluentValidation;
 
@@ -11,11 +13,13 @@ namespace ACME.SchoolManagement.Core.Domain.HandlerBase
     {
         private readonly ILoggerService _logger;
         private readonly IValidator<TRequest> _validator;
+        private readonly IValidationLogger _validationLogger;
 
-        protected HandlerBase(ILoggerService logger, IValidator<TRequest> validator)
+        protected HandlerBase(ILoggerService logger, IValidator<TRequest> validator, IValidationLogger validationLogger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _validator = validator ?? throw new ArgumentNullException(nameof(validator));
+            _validationLogger = validationLogger ?? throw new ArgumentNullException(nameof(validationLogger));
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
@@ -32,7 +36,7 @@ namespace ACME.SchoolManagement.Core.Domain.HandlerBase
             if (!validationResults.IsValid)
             {
                 var failures = validationResults.Errors.ToList();
-                string message = _logger?.LogValidationErrors(request, failures);
+                var message = _validationLogger.LogValidationErrors(request, failures);
                 throw new RequestValidationException(message, failures);
             }
         }

@@ -1,4 +1,5 @@
 ﻿using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.Contracts.ValidationLogger;
 using ACME.SchoolManagement.Core.Domain.HandlerBase;
 using ACME.SchoolManagement.Core.Domain.Models;
 using AutoMapper;
@@ -15,7 +16,8 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStude
         public ListOfCoursesAndStudentsByDateQueryHandler(ILoggerService logger, 
             IEnrollmentService enrollmentService, 
             IMapper mapper, 
-            IValidator<ListOfCoursesAndStudentsByDateQuery> validator) : base(logger, validator)
+            IValidator<ListOfCoursesAndStudentsByDateQuery> validator,
+            IValidationLogger validationLogger) : base(logger, validator, validationLogger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));

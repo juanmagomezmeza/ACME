@@ -1,4 +1,5 @@
 ﻿using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.Contracts.ValidationLogger;
 using ACME.SchoolManagement.Core.Domain.Entities;
 using ACME.SchoolManagement.Core.Domain.HandlerBase;
 using AutoMapper;
@@ -17,7 +18,8 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse
             IEnrollmentService enrollmentService, 
             IMapper mapper, 
             IPaymentGateway paymentGateway, 
-            IValidator<ContractCourseCommand> validator) : base(logger, validator)
+            IValidator<ContractCourseCommand> validator,
+            IValidationLogger validationLogger) : base(logger, validator, validationLogger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _enrollmentService = enrollmentService ?? throw new ArgumentNullException(nameof(enrollmentService));

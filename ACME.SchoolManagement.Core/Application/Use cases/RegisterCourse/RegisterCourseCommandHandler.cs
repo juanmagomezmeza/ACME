@@ -1,4 +1,5 @@
 ﻿using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.Contracts.ValidationLogger;
 using ACME.SchoolManagement.Core.Domain.Entities;
 using ACME.SchoolManagement.Core.Domain.HandlerBase;
 using AutoMapper;
@@ -16,7 +17,8 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.RegisterCourse
         public RegisterCourseCommandHandler(ILoggerService logger, 
             ICourseService courseService, 
             IMapper mapper,
-            IValidator<RegisterCourseCommand> validator) : base(logger, validator)
+            IValidator<RegisterCourseCommand> validator,
+            IValidationLogger validationLogger) : base(logger, validator, validationLogger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _courseService = courseService ?? throw new ArgumentNullException(nameof(courseService));

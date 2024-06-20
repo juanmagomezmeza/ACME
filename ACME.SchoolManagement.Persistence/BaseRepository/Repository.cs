@@ -4,16 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ACME.SchoolManagement.Persistence.BaseRepository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T>(SchoolContext context) : IRepository<T> where T : class
     {
-        protected readonly SchoolContext _context;
-        protected readonly DbSet<T> _dbSet;
-
-        public Repository(SchoolContext context)
-        {
-            _context = context;
-            _dbSet = context.Set<T>();
-        }
+        protected readonly SchoolContext _context = context;
+        protected readonly DbSet<T> _dbSet = context.Set<T>();
 
         public IEnumerable<T> GetAll()
         {
