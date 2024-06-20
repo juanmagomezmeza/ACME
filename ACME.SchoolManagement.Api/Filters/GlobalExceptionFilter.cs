@@ -41,7 +41,7 @@ namespace ACME.SchoolManagement.Api.Filters
             else if (exceptionType == typeof(RequestValidationException))
             {
                 var path = GetAbsolutePath(((DefaultHttpContext)context.HttpContext).Request);
-                var errors = (context.Exception as RequestValidationException).Errors;
+                var errors = ((RequestValidationException)context.Exception).Errors;
                 var errorResponse = new ValidationErrorModel() { Message = $"Request: {path} contains validation Errors", Errors = errors };
                 message = JsonConvert.SerializeObject(errorResponse, new JsonSerializerSettings
                 {

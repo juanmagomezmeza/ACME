@@ -14,8 +14,8 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.RegisterCourse
         private ICourseService? _courseService;
         private IMapper? _mapper;
 
-        public RegisterCourseCommandHandler(ILoggerService logger, 
-            ICourseService courseService, 
+        public RegisterCourseCommandHandler(ILoggerService logger,
+            ICourseService courseService,
             IMapper mapper,
             IValidator<RegisterCourseCommand> validator,
             IValidationLogger validationLogger) : base(logger, validator, validationLogger)

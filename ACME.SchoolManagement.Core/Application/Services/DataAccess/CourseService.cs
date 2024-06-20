@@ -4,7 +4,7 @@ using ACME.SchoolManagement.Core.Domain.Entities;
 
 namespace ACME.SchoolManagement.Core.Application.Services.DataAccess
 {
-    public class CourseService : ICourseService,IService<Course>
+    public class CourseService : ICourseService, IService<Course>
     {
         private readonly IUnitOfWork _unitOfWork;
 

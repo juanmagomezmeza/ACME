@@ -13,9 +13,9 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStude
         private IEnrollmentService? _enrollmentService;
         private IMapper? _mapper;
 
-        public ListOfCoursesAndStudentsByDateQueryHandler(ILoggerService logger, 
-            IEnrollmentService enrollmentService, 
-            IMapper mapper, 
+        public ListOfCoursesAndStudentsByDateQueryHandler(ILoggerService logger,
+            IEnrollmentService enrollmentService,
+            IMapper mapper,
             IValidator<ListOfCoursesAndStudentsByDateQuery> validator,
             IValidationLogger validationLogger) : base(logger, validator, validationLogger)
         {
@@ -31,7 +31,7 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ListOfCoursesAndStude
 
         public async Task<IList<EnrollmentModel>> ListOfCoursesAndStudentsByDate(DateTime startDate, DateTime endDate)
         {
-            var list = await _enrollmentService.ListOfCoursesAndStudentsByDate(startDate,endDate);
+            var list = await _enrollmentService.ListOfCoursesAndStudentsByDate(startDate, endDate);
             List<EnrollmentModel> enrollmentModels = new List<EnrollmentModel>();
             foreach (var item in list)
             {

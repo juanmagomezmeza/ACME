@@ -1,6 +1,5 @@
 ﻿using ACME.SchoolManagement.Core.Application.Services.Request;
 using ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse;
-using ACME.SchoolManagement.Core.Application.Use_cases.RegisterCourse;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Core.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +41,7 @@ namespace ACME.SchoolManagement.Api.Controllers
         [HttpPost("Enrollment")]
         public async Task<IActionResult> ContractCourse([FromBody] ContractCourseCommand request)
         {
-            var result = await _requestDispatcher.Send<ContractCourseCommand, string>(request);
+            var result = await _requestDispatcher.Send<ContractCourseCommand, string?>(request);
             return result is null ? NoContent() : Ok(result);
         }
     }

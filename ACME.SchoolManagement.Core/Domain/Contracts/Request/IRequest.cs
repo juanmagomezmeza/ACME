@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ACME.SchoolManagement.Core.Domain.Contracts.Request
+﻿namespace ACME.SchoolManagement.Core.Domain.Contracts.Request
 {
     /// <summary>
     /// Marker interface to represent a request with a response

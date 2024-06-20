@@ -14,10 +14,10 @@ namespace ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse
         private IMapper? _mapper;
         private IPaymentGateway _paymentGateway;
 
-        public ContractCourseCommandHandler(ILoggerService logger, 
-            IEnrollmentService enrollmentService, 
-            IMapper mapper, 
-            IPaymentGateway paymentGateway, 
+        public ContractCourseCommandHandler(ILoggerService logger,
+            IEnrollmentService enrollmentService,
+            IMapper mapper,
+            IPaymentGateway paymentGateway,
             IValidator<ContractCourseCommand> validator,
             IValidationLogger validationLogger) : base(logger, validator, validationLogger)
         {

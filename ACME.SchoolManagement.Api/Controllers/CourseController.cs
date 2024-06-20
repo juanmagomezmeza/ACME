@@ -42,7 +42,7 @@ namespace ACME.SchoolManagement.Api.Controllers
         [HttpPost("RegisterCourse")]
         public async Task<IActionResult> RegisterCourse([FromBody] RegisterCourseCommand request)
         {
-            var result = await _requestDispatcher.Send<RegisterCourseCommand, string>(request);
+            var result = await _requestDispatcher.Send<RegisterCourseCommand, string?>(request);
             return result is null ? NoContent() : Ok(result);
         }
 

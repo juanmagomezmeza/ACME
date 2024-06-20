@@ -3,6 +3,7 @@ using ACME.SchoolManagement.Api.Filters;
 using ACME.SchoolManagement.Api.Installers.Contracts;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace ACME.SchoolManagement.Api.Installers
 {
@@ -13,18 +14,13 @@ namespace ACME.SchoolManagement.Api.Installers
     {
         public void InstallService(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddControllers();
             services.AddRouting(options => options.LowercaseUrls = true);
-
-            // Configuración de controllers con FluentValidation y JSON options
-            services.AddControllers()
-                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>())
-                    .AddJsonOptions(options =>
-                    {
-                        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                    });
-
-            // Agregar HttpContextAccessor si es necesario
-            services.AddHttpContextAccessor();
+            services.AddFluentValidationAutoValidation();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "School Management", Description = "Management", Version = "v1" });
+            });
         }
     }
 }
