@@ -2,7 +2,6 @@
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Infrastructure;
 using ACME.SchoolManagement.Infrastructure.PaymentGateway;
-using FluentValidation;
 
 namespace ACME.SchoolManagement.Api.Installers
 {

@@ -1,5 +1,6 @@
 ﻿using ACME.SchoolManagement.Core.Application.Use_cases.ContractCourse;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+using ACME.SchoolManagement.Core.Domain.Contracts.ValidationLogger;
 using ACME.SchoolManagement.Core.Domain.Entities;
 using ACME.SchoolManagement.Core.Domain.Exceptions;
 using AutoMapper;
@@ -7,8 +8,6 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
-using ACME.SchoolManagement.Core.Application.Extensions;
-using ACME.SchoolManagement.Core.Domain.Contracts.ValidationLogger;
 
 namespace ACME.SchoolManagement.Core.Tests.Application.ContractCourse
 {

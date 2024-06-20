@@ -1,20 +1,39 @@
-using Serilog;
+using ACME.SchoolManagement.Api.Installers.Extensions;
+using Microsoft.OpenApi.Models;
 
-namespace ACME.SchoolManagement.Api
+var builder = WebApplication.CreateBuilder(args);
+
+// Accede a la configuración
+var configuration = builder.Configuration;
+
+// Agrega servicios al contenedor
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).UseDefaultServiceProvider(options => options.ValidateScopes = false).Build().Run();
-        }
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "School Management", Description = "Management", Version = "v1" });
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+builder.Services.InstallServicesInAssembly(configuration);
+
+var app = builder.Build();
+
+// Configura el pipeline de solicitudes HTTP
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    });
 }
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
