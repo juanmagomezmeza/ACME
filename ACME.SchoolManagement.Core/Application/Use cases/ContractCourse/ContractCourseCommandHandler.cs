@@ -1,7 +1,7 @@
-﻿using ACME.SchoolManagement.Core.Domain.Contracts.Services;
+﻿using ACME.SchoolManagement.Core.Application.HandlerBase;
+using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Core.Domain.Contracts.ValidationLogger;
 using ACME.SchoolManagement.Core.Domain.Entities;
-using ACME.SchoolManagement.Core.Domain.HandlerBase;
 using AutoMapper;
 using FluentValidation;
 

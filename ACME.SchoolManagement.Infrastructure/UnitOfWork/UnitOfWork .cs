@@ -3,7 +3,7 @@ using ACME.SchoolManagement.Core.Domain.Contracts.UnitOfWork;
 using ACME.SchoolManagement.Persistence.Contexts;
 using ACME.SchoolManagement.Persistence.Repositories;
 
-namespace ACME.SchoolManagement.Persistence.UnitOfWork
+namespace ACME.SchoolManagement.Infrastructure.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {

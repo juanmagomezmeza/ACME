@@ -1,12 +1,10 @@
-﻿using ACME.SchoolManagement.Core.Application.Extensions;
-using ACME.SchoolManagement.Core.Application.Logger;
-using ACME.SchoolManagement.Core.Domain.Contracts.Request;
+﻿using ACME.SchoolManagement.Core.Domain.Contracts.Request;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Core.Domain.Contracts.ValidationLogger;
 using ACME.SchoolManagement.Core.Domain.Exceptions;
 using FluentValidation;
 
-namespace ACME.SchoolManagement.Core.Domain.HandlerBase
+namespace ACME.SchoolManagement.Core.Application.HandlerBase
 {
     public abstract class HandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

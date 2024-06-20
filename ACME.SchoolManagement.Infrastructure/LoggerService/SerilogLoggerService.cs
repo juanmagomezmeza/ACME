@@ -2,7 +2,7 @@
 using Serilog;
 using Serilog.Events;
 
-namespace ACME.SchoolManagement.Infrastructure
+namespace ACME.SchoolManagement.Infrastructure.LoggerService
 {
     public class SerilogLoggerService : ILoggerService
     {

@@ -2,7 +2,7 @@
 using ACME.SchoolManagement.Core.Application.Logger;
 using ACME.SchoolManagement.Core.Domain.Common;
 using ACME.SchoolManagement.Core.Domain.Contracts.ValidationLogger;
-using ACME.SchoolManagement.Infrastructure;
+using ACME.SchoolManagement.Infrastructure.RegisterServices;
 using System.Reflection;
 
 namespace ACME.SchoolManagement.Api.Installers

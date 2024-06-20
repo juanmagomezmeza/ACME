@@ -1,6 +1,6 @@
 ﻿using ACME.SchoolManagement.Api.Installers.Contracts;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
-using ACME.SchoolManagement.Infrastructure;
+using ACME.SchoolManagement.Infrastructure.LoggerService;
 using ACME.SchoolManagement.Infrastructure.PaymentGateway;
 
 namespace ACME.SchoolManagement.Api.Installers

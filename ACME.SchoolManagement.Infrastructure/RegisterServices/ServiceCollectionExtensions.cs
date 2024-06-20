@@ -4,7 +4,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace ACME.SchoolManagement.Infrastructure
+namespace ACME.SchoolManagement.Infrastructure.RegisterServices
 {
     public static class ServiceCollectionExtensions
     {

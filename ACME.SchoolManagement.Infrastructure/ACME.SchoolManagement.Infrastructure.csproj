@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ACME.SchoolManagement.Core\ACME.SchoolManagement.Core.csproj" />
+    <ProjectReference Include="..\ACME.SchoolManagement.Persistence\ACME.SchoolManagement.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
