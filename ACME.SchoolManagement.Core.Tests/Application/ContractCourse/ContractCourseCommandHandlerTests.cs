@@ -69,7 +69,7 @@ namespace ACME.SchoolManagement.Core.Tests.Application.ContractCourse
         }
 
         [Fact]
-        public async Task HandleRequest_Should_Throw_UnauthorizedAccessException_When_Payment_Fails()
+        public async Task HandleRequest_Should_Throw_PaymentException_When_Payment_Fails()
         {
             var command = new ContractCourseCommand { StudentID = Guid.NewGuid(), CourseID = Guid.NewGuid() };
 
@@ -81,11 +81,11 @@ namespace ACME.SchoolManagement.Core.Tests.Application.ContractCourse
 
             Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
-            await act.Should().ThrowAsync<UnauthorizedAccessException>().WithMessage("Paid error");
+            await act.Should().ThrowAsync<PaymentException>().WithMessage("Payment error");
         }
 
         [Fact]
-        public async Task HandleRequest_Should_Throw_InvalidDataException_When_Data_Is_Inconsistent()
+        public async Task HandleRequest_Should_Throw_DataConsistencyException_When_Data_Is_Inconsistent()
         {
             var command = new ContractCourseCommand { StudentID = Guid.NewGuid(), CourseID = Guid.NewGuid() };
 
@@ -100,7 +100,7 @@ namespace ACME.SchoolManagement.Core.Tests.Application.ContractCourse
 
             Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
-            await act.Should().ThrowAsync<InvalidDataException>().WithMessage("Invalid data");
+            await act.Should().ThrowAsync<DataConsistencyException>().WithMessage("Invalid data");
         }
 
         [Fact]
