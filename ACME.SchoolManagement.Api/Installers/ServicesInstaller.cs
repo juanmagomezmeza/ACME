@@ -1,4 +1,6 @@
 ﻿using ACME.SchoolManagement.Api.Installers.Contracts;
+using ACME.SchoolManagement.Core.Application.ExceptionHandlers;
+using ACME.SchoolManagement.Core.Domain.Contracts.Exceptions;
 using ACME.SchoolManagement.Core.Domain.Contracts.Services;
 using ACME.SchoolManagement.Infrastructure.LoggerService;
 using ACME.SchoolManagement.Infrastructure.PaymentGateway;
@@ -19,6 +21,10 @@ namespace ACME.SchoolManagement.Api.Installers
         {
             services.AddScoped<ILoggerService>(provider => new SerilogLoggerService());
             services.AddScoped<IPaymentGateway, PaymentGateway>();
+            //services.AddTransient<IExceptionHandler, UnauthorizedAccessExceptionHandler>();
+            //services.AddTransient<IExceptionHandler, PaymentExceptionHandler>();
+            //services.AddTransient<IExceptionHandler, DataConsistencyExceptionHandler>();
+            //services.AddTransient<IExceptionHandler, InvalidDataExceptionHandler>();
         }
     }
 }

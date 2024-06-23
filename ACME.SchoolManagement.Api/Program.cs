@@ -2,6 +2,21 @@ using ACME.SchoolManagement.Api.Installers.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+// Registrar manejadores de excepción
+//builder.Services.AddTransient<IExceptionHandler, UnauthorizedAccessExceptionHandler>();
+//builder.Services.AddTransient<IExceptionHandler, PaymentExceptionHandler>();
+//builder.Services.AddTransient<IExceptionHandler, DataConsistencyExceptionHandler>();
+//builder.Services.AddTransient<IExceptionHandler, InvalidDataExceptionHandler>();
+
+
+//// Otros servicios
+//builder.Services.AddMvc(
+//                config =>
+//                {
+//                    config.Filters.Add(typeof(GlobalExceptionFilter));
+//                });
+//builder.Services.AddHttpContextAccessor();
+
 builder.Services.InstallServicesInAssembly(configuration);
 var app = builder.Build();
 
