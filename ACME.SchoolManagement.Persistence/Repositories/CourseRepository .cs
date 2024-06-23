@@ -5,7 +5,6 @@ using ACME.SchoolManagement.Persistence.Contexts;
 
 namespace ACME.SchoolManagement.Persistence.Repositories;
 
-public class CourseRepository : Repository<Course>, ICourseRepository
+public class CourseRepository(SchoolContext context) : Repository<Course>(context), ICourseRepository
 {
-    public CourseRepository(SchoolContext context) : base(context) { }
 }

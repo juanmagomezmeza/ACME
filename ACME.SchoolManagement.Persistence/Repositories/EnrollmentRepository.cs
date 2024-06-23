@@ -6,10 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ACME.SchoolManagement.Persistence.Repositories
 {
-    public class EnrollmentRepository : Repository<Enrollment>, IEnrollmentRepository
+    public class EnrollmentRepository(SchoolContext context) : Repository<Enrollment>(context), IEnrollmentRepository
     {
-        public EnrollmentRepository(SchoolContext context) : base(context) { }
-
         public List<Enrollment> ListOfCoursesAndStudentsByDate(DateTime startDate, DateTime endDate)
         {
             var enrollmentsWithDetails = _context.Enrollments

@@ -5,9 +5,7 @@ using ACME.SchoolManagement.Persistence.Contexts;
 
 namespace ACME.SchoolManagement.Persistence.Repositories
 {
-    public class StudentRepository : Repository<Student>, IStudentRepository
+    public class StudentRepository(SchoolContext context) : Repository<Student>(context), IStudentRepository
     {
-        public StudentRepository(SchoolContext context) : base(context) { }
-
     }
 }
