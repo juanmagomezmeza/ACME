@@ -12,8 +12,7 @@ namespace ACME.SchoolManagement.Core.Application.Mappings
                 .ForMember(r => r.EndDate, m => m.MapFrom(d => d.EndDate))
                 .ForMember(r => r.StartDate, m => m.MapFrom(d => d.StartDate))
                 .ForMember(r => r.RegistrationFee, m => m.MapFrom(d => d.RegistrationFee))
-                .ForMember(r => r.Name, m => m.MapFrom(d => d.Name))
-                .ForMember(r => r.CourseID, m => m.MapFrom(_ => Guid.NewGuid()));
+                .ForMember(r => r.Name, m => m.MapFrom(d => d.Name));
         }
     }
 }

@@ -23,12 +23,12 @@ namespace ACME.SchoolManagement.Persistence.Repositories
 
         public async Task<bool> CourseExists(Guid courseID)
         {
-            return await _context.Enrollments.AnyAsync(s => s.CourseID == courseID);
+            return await _context.Courses.AnyAsync(s => s.CourseID == courseID);
         }
 
         public async Task<bool> StudentExists(Guid studentID)
         {
-            return await _context.Enrollments.AnyAsync(s => s.StudentID == studentID);
+            return await _context.Students.AnyAsync(s => s.StudentID == studentID);
         }
     }
 }
